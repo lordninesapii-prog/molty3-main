@@ -23,7 +23,7 @@ from src import logger
 class MoltyBot:
     """Main orchestrator — continuous game lifecycle."""
 
-    def __init__(self, api_key: str = None, room_type: str = None, room_name: str = None, agent_label: str = ""):
+    def __init__(self, api_key: str = None, room_type: str = None, room_name: str = None, agent_label: str = "", is_fallback_host: bool = False):
         self._running = True
         self.api_client = None
         self.bot = None
@@ -34,6 +34,7 @@ class MoltyBot:
         self._room_type = room_type  # None = load from env
         self._room_name = room_name  # None = auto-generate (fallback)
         self._agent_label = agent_label  # For multi-agent log prefix
+        self._is_fallback_host = is_fallback_host
 
         # Register signal handlers for graceful shutdown
         # Only register in main thread to avoid errors in worker threads
@@ -121,9 +122,17 @@ class MoltyBot:
         # ── Step 6: Initialize components ────────────────────────
         self.bot = Bot(self.api_client)
         self.bot._agent_label = self._agent_label or self.agent_name
+        
+        # Determine if this agent is the host
         is_host = (self.agent_name.lower() == HOST_ACCOUNT.lower())
+        
+        # If no host account is explicitly defined in ENV, fallback to the first agent
+        if not HOST_ACCOUNT and self._is_fallback_host:
+            is_host = True
+            
         if is_host:
             logger.success(f"Agent {self.agent_name} is the designated HOST for room creation.", logger.SYM_STAR)
+            
         self.room_manager = RoomManager(self.api_client, self._room_type, self._room_name, is_host)
         self.room_manager.set_agent_name(self.agent_name)
         self.room_manager._agent_label = self._agent_label or self.agent_name

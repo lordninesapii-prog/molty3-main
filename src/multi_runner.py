@@ -60,9 +60,9 @@ def load_api_keys():
     return []
 
 
-def run_agent(api_key, room_type, room_name, agent_label, stop_event):
+def run_agent(api_key, room_type, room_name, agent_label, stop_event, is_fallback_host=False):
     """Run a single agent in its own thread."""
-    bot = MoltyBot(api_key=api_key, room_type=room_type, room_name=room_name, agent_label=agent_label)
+    bot = MoltyBot(api_key=api_key, room_type=room_type, room_name=room_name, agent_label=agent_label, is_fallback_host=is_fallback_host)
 
     # Monitor stop event to gracefully stop this agent
     def check_stop():
@@ -162,7 +162,7 @@ def main():
         label = f"Agent-{i+1}"
         t = threading.Thread(
             target=run_agent,
-            args=(key, room_type, room_name, label, stop_event),
+            args=(key, room_type, room_name, label, stop_event, i == 0),
             name=label,
             daemon=False,
         )

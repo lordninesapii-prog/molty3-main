@@ -309,6 +309,13 @@ class RoomManager:
                         f"Harap tunggu game selesai."
                     )
                 return
+        except APIError as e:
+            if "AGENT_NOT_FOUND" in str(e):
+                logger.warning(
+                    f"[WAIT] {room_label} game [{short_id}...] agent record removed. "
+                    f"Match is likely finishing up. Please wait..."
+                )
+                return
         except Exception:
             pass
 
