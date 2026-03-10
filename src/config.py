@@ -46,10 +46,10 @@ ADJECTIVES_ID = [
 ]
 
 def generate_indo_room_name():
-    """Generate a consistent random name like 'Harimau Sakti' based on the current hour."""
-    # Use current Date + Hour as seed in UTC to avoid timezone differences between servers
-    # e.g., "2026031021"
-    seed_str = datetime.now(timezone.utc).strftime("%Y%m%d%H")
+    """Generate a consistent random name like 'Harimau Sakti' based on the current day."""
+    # Use current Date as seed in UTC to avoid hourly desynchronization
+    # e.g., "20260310"
+    seed_str = datetime.now(timezone.utc).strftime("%Y%m%d")
     seed_val = int(seed_str)
     
     # Store old state to avoid affecting other random calls
