@@ -168,11 +168,12 @@ def main():
         )
         threads.append(t)
 
-    # Start threads with small stagger to avoid API rate limits
+    # Start threads with very small stagger (0.1s)
+    # This ensures they join almost immediately before 100/100 random players fill the free room
     for i, t in enumerate(threads):
         t.start()
         if i < len(threads) - 1:
-            time.sleep(2)  # 2s stagger between agent starts
+            time.sleep(0.1)
 
     logger.separator("=")
     logger.success(f"All {len(threads)} agent(s) started! Press Ctrl+C to stop all.")

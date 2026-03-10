@@ -148,8 +148,10 @@ class RoomManager:
                         print("")
                         logger.info(f"Room '{self.room_name}' not found. Waiting for host to create it...")
 
-                # Adaptive polling interval
-                self._sleep_interruptible(self._get_poll_interval())
+                # Adaptive polling interval, but AGGRESSIVE (0.5s) if we are searching for a specific host room
+                # since free 100/100 rooms fill up in < 3 seconds!
+                poll_time = 0.5 if (self.room_name and not self.is_host) else self._get_poll_interval()
+                self._sleep_interruptible(poll_time)
 
             except APIError as e:
                 if e.code == "ACCOUNT_ALREADY_IN_GAME":
