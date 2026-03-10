@@ -1,0 +1,41 @@
+# ─── Python ────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ─── Virtual Environment ──────────────────────────────────────────
+venv/
+.venv/
+env/
+
+# ─── IDE / Editor ─────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ─── Testing ──────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ─── Runtime Data (ML models, game history) ───────────────────────
+data/game_history/
+data/models/
+data/strategy_weights.json
+
+# ─── Secrets ──────────────────────────────────────────────────────
+.env
+.env.local
+.env.production
+
+# ─── OS ───────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini

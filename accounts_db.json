@@ -1,0 +1,226 @@
+{
+  "meta": {
+    "created_at": "2026-03-10T12:35:00.929092Z",
+    "last_updated": "2026-03-10T13:30:15.608108Z",
+    "total_accounts": 10,
+    "description": "Molty Royale Account Database",
+    "db_path": "C:\\Users\\viikemx\\Downloads\\molty3-main (3)\\molty3-main\\accounts_db.json"
+  },
+  "accounts": [
+    {
+      "accountId": "4e4003e9-e909-47fc-89c8-c5781484491b",
+      "name": "shaheed",
+      "apiKey": "mr_live_R7hk1R5fR9n2qNaI91DfqUt015lars5W",
+      "verificationCode": "",
+      "publicId": "109742543848925",
+      "walletAddress": "0xca7ea55dbeff5e1da722774f5b0d538fc4a0c831",
+      "walletSynced": true,
+      "balance": 0,
+      "crossBalanceWei": "0",
+      "totalGames": 0,
+      "totalWins": 0,
+      "currentGames": [
+        {
+          "gameId": "bade9a3c-779d-444a-99ae-e2ac036b6dbb",
+          "agentId": "3279a851-c01e-4f84-a106-55ab0f10917e",
+          "agentName": "shaheed",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
+      "createdAt": "2026-03-10T12:41:26.696Z",
+      "lastUpdated": "2026-03-10T13:30:10.855001Z",
+      "notes": "bulk_create"
+    },
+    {
+      "accountId": "f5fc4c52-9e42-479f-a822-1d3ba33c6f0b",
+      "name": "martyr",
+      "apiKey": "mr_live_TXs_O0BfgDCTXzn2x85m9GdhpZhgY2eQ",
+      "verificationCode": "",
+      "publicId": "144031140908200",
+      "walletAddress": "0x129ebf8282abcdebea30e419f7448fdd2ad4f9ca",
+      "walletSynced": true,
+      "balance": 0,
+      "crossBalanceWei": "0",
+      "totalGames": 0,
+      "totalWins": 0,
+      "currentGames": [
+        {
+          "gameId": "bade9a3c-779d-444a-99ae-e2ac036b6dbb",
+          "agentId": "e715750c-9b74-4cf0-b1ed-696d42f86101",
+          "agentName": "martyr",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
+      "createdAt": "2026-03-10T12:41:29.768Z",
+      "lastUpdated": "2026-03-10T13:30:11.364830Z",
+      "notes": "bulk_create"
+    },
+    {
+      "accountId": "209eff2a-9aa7-455b-bb8a-75744ca95563",
+      "name": "owo",
+      "apiKey": "mr_live_RKl6S9HC01REKSd1Cd_5a7Sstv8dGg0j",
+      "verificationCode": "",
+      "publicId": "239913463039479",
+      "walletAddress": "0x055573471195e81fc49e40619c9e49d0d4a3b835",
+      "walletSynced": true,
+      "balance": 0,
+      "crossBalanceWei": "0",
+      "totalGames": 0,
+      "totalWins": 0,
+      "currentGames": [
+        {
+          "gameId": "12010a3e-c717-4bfc-bb62-8ed90db9bbb1",
+          "agentId": "b389b37a-be65-49ad-888f-3e448525cd2b",
+          "agentName": "owo",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
+      "createdAt": "2026-03-10T12:41:33.107Z",
+      "lastUpdated": "2026-03-10T13:30:11.925599Z",
+      "notes": "bulk_create"
+    },
+    {
+      "accountId": "fa9eb3cd-3089-45d9-a4b7-8b40bcb6880f",
+      "name": "owi",
+      "apiKey": "mr_live_m2jU8TAc7aQawZFPQNGQ2EJBWHuC3Uxn",
+      "verificationCode": "",
+      "publicId": "134538086231639",
+      "walletAddress": "0x32f249389653f8043f94435a44bc27f5c40677a0",
+      "walletSynced": true,
+      "balance": 0,
+      "crossBalanceWei": "0",
+      "totalGames": 0,
+      "totalWins": 0,
+      "currentGames": [
+        {
+          "gameId": "41f075be-0025-4c11-811b-6b748b942c1e",
+          "agentId": "c4771d5e-a6a9-4af5-8aa0-fb6dff04bf3c",
+          "agentName": "owi",
+          "isAlive": 1,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
+      "createdAt": "2026-03-10T12:41:36.192Z",
+      "lastUpdated": "2026-03-10T13:30:12.450077Z",
+      "notes": "bulk_create"
+    },
+    {
+      "accountId": "96de7e0a-7d85-4874-b801-2c19b8c7d3c4",
+      "name": "gib",
+      "apiKey": "mr_live_9AJ-_u0miGyQFTub5nCgCPw2n6XM1JvU",
+      "verificationCode": "",
+      "publicId": "50580070681789",
+      "walletAddress": "0x38606681e5674d52acef946cb294fc6dbb39fde5",
+      "walletSynced": true,
+      "balance": 0,
+      "crossBalanceWei": "0",
+      "totalGames": 0,
+      "totalWins": 0,
+      "currentGames": [
+        {
+          "gameId": "b0191772-458c-4363-b8b8-a899bb799a16",
+          "agentId": "20aacc82-615f-4d49-987c-d083c5e35896",
+          "agentName": "gib",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
+      "createdAt": "2026-03-10T12:41:39.267Z",
+      "lastUpdated": "2026-03-10T13:30:12.979419Z",
+      "notes": "bulk_create"
+    },
+    {
+      "accountId": "370c69b7-f27c-4eed-8f8b-eaa1506ac7bb",
+      "name": "robinhood",
+      "apiKey": "mr_live_l7ZyulIw4RyJW0mdQ4V6F7svtQjtauai",
+      "verificationCode": "",
+      "publicId": "267318022047931",
+      "walletAddress": "0xea304a712c560f843de68496485c6db3bee6e670",
+      "walletSynced": true,
+      "balance": 0,
+      "crossBalanceWei": "0",
+      "totalGames": 0,
+      "totalWins": 0,
+      "currentGames": [],
+      "createdAt": "2026-03-10T13:29:44.617Z",
+      "lastUpdated": "2026-03-10T13:30:13.496466Z",
+      "notes": "bulk_create"
+    },
+    {
+      "accountId": "b4728046-b051-4480-8f53-2122759d4e71",
+      "name": "elPEMENANG",
+      "apiKey": "mr_live_i8ypG8pBjrif7ZNBod099ugcICeQIS0-",
+      "verificationCode": "",
+      "publicId": "72147335672172",
+      "walletAddress": "0x7cd851054e11a406466cb2b04dd9440a7e82e040",
+      "walletSynced": true,
+      "balance": 0,
+      "crossBalanceWei": "0",
+      "totalGames": 0,
+      "totalWins": 0,
+      "currentGames": [],
+      "createdAt": "2026-03-10T13:29:47.821Z",
+      "lastUpdated": "2026-03-10T13:30:14.022251Z",
+      "notes": "bulk_create"
+    },
+    {
+      "accountId": "32a7b018-255b-4b65-b2cf-a3d024373f24",
+      "name": "a7jtloker",
+      "apiKey": "mr_live_ocqgtnqGyAWwJE9xcVzdWVZvIcu0IACH",
+      "verificationCode": "",
+      "publicId": "238251157775103",
+      "walletAddress": "0x5c81708c9c1cfab4280e938259ce4f89bdc2e01b",
+      "walletSynced": true,
+      "balance": 0,
+      "crossBalanceWei": "0",
+      "totalGames": 0,
+      "totalWins": 0,
+      "currentGames": [],
+      "createdAt": "2026-03-10T13:29:50.895Z",
+      "lastUpdated": "2026-03-10T13:30:14.564883Z",
+      "notes": "bulk_create"
+    },
+    {
+      "accountId": "702276c6-6b7e-4e56-a602-99e7a03a823f",
+      "name": "epstenpedo",
+      "apiKey": "mr_live_zWFJlJNqy62fUYKwEtrT4Sv03Q-zJ_tD",
+      "verificationCode": "",
+      "publicId": "54787456063466",
+      "walletAddress": "0x0c5e7107b6cfa677f0aabdc5d616c5fef27ca7cd",
+      "walletSynced": true,
+      "balance": 0,
+      "crossBalanceWei": "0",
+      "totalGames": 0,
+      "totalWins": 0,
+      "currentGames": [],
+      "createdAt": "2026-03-10T13:29:53.946Z",
+      "lastUpdated": "2026-03-10T13:30:15.093988Z",
+      "notes": "bulk_create"
+    },
+    {
+      "accountId": "79b5a287-6fdd-4c68-bf31-a3836ea33858",
+      "name": "trumpedo",
+      "apiKey": "mr_live_rO1DMc-X0vUiXMmLJ3Io88YYdyX4cecS",
+      "verificationCode": "",
+      "publicId": "207456116573012",
+      "walletAddress": "0x02b665d47578d07513b4dafcc8ff50dbdace9e00",
+      "walletSynced": true,
+      "balance": 0,
+      "crossBalanceWei": "0",
+      "totalGames": 0,
+      "totalWins": 0,
+      "currentGames": [],
+      "createdAt": "2026-03-10T13:29:57.004Z",
+      "lastUpdated": "2026-03-10T13:30:15.607857Z",
+      "notes": "bulk_create"
+    }
+  ]
+}
