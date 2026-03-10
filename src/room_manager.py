@@ -4,6 +4,7 @@ Auto-join/create game rooms with fast polling. Supports free and paid rooms.
 """
 
 import time
+import random
 import threading
 from src.api_client import MoltyAPIClient, APIError
 from src.config import ROOM_TYPE
@@ -175,6 +176,14 @@ class RoomManager:
                     # This decentralizes room creation to avoid rate limits (Anti-Spam) on a single host.
                     # If someone else creates it first, this agent cleanly catches WAITING_GAME_EXISTS.
                     if self.room_name or self.is_host:
+                        # CROSS-PROJECT JITTER: If not the primary host, randomly delay 0.5s - 3.0s before 
+                        # trying to create. This prevents 4 separate Railway projects from creating 
+                        # 4 identical rooms at the exact same millisecond. The winner creates it, 
+                        # and the sleepers will cleanly catch WAITING_GAME_EXISTS when they wake up.
+                        if not self.is_host:
+                            jitter = random.uniform(0.5, 3.0)
+                            time.sleep(jitter)
+
                         game_id = self._try_create_game()
                         if game_id:
                             agent_id = self._register_in_game(game_id)
