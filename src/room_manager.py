@@ -4,10 +4,13 @@ Auto-join/create game rooms with fast polling. Supports free and paid rooms.
 """
 
 import time
+import threading
 from src.api_client import MoltyAPIClient, APIError
 from src.config import ROOM_TYPE
 from src import logger
 
+# Global lock to prevent multiple agents in the same process from creating a room simultaneously.
+CREATE_GAME_LOCK = threading.Lock()
 
 class RoomManager:
     """Manages game lifecycle: find → join → play → repeat."""
@@ -254,25 +257,39 @@ class RoomManager:
             return ""
 
     def _try_create_game(self) -> str:
-        """Try to create a new game room. Returns game_id or empty string."""
-        try:
-            host_name = self.room_name if self.room_name else f"{self.agent_name}'s Room"
-            game_data = self.api.create_game(
-                host_name=host_name,
-                entry_type=self.room_type,
-            )
-            game_id = game_data.get("id", "")
-            if game_id:
-                print("")  # New line after waiting indicator
-                logger.success(f"Created new {self.room_type} game room!", logger.SYM_STAR)
-            return game_id
+        """Try to create a new game room safely. Returns game_id or empty string."""
+        with CREATE_GAME_LOCK:
+            # Double check if someone else in another thread just created it while we waited for the lock
+            try:
+                games = self.api.list_games("waiting")
+                matching = [g for g in games if g.get("entryType", "free") == self.room_type]
+                if self.room_name:
+                    matching = [g for g in matching if g.get("name", "") == self.room_name]
+                
+                if matching:
+                    # Someone else created it! Cleanly exit so we can join it on the next loop phase.
+                    return ""
+            except Exception:
+                pass # Ignore list errors and proceed to creation
 
-        except APIError as e:
-            if e.code == "WAITING_GAME_EXISTS":
-                pass  # Normal — will find it on next poll
-            else:
-                logger.warning(f"Could not create game: {e}")
-            return ""
+            try:
+                host_name = self.room_name if self.room_name else f"{self.agent_name}'s Room"
+                game_data = self.api.create_game(
+                    host_name=host_name,
+                    entry_type=self.room_type,
+                )
+                game_id = game_data.get("id", "")
+                if game_id:
+                    print("")  # New line after waiting indicator
+                    logger.success(f"Created new {self.room_type} game room!", logger.SYM_STAR)
+                return game_id
+
+            except APIError as e:
+                if e.code == "WAITING_GAME_EXISTS":
+                    pass  # Normal — will find it on next poll
+                else:
+                    logger.warning(f"Could not create game: {e}")
+                return ""
 
     def _log_active_game_status(self, game_id: str, agent_id: str):
         """Log detailed info about the active game this agent is already in."""
