@@ -124,10 +124,12 @@ class MoltyBot:
         self.bot._agent_label = self._agent_label or self.agent_name
         
         # Determine if this agent is the host
-        is_host = (self.agent_name.lower() == HOST_ACCOUNT.lower())
+        clean_host = (HOST_ACCOUNT or "").strip(' "\'').lower()
+        clean_name = (self.agent_name or "").strip(' "\'').lower()
+        is_host = (clean_name == clean_host)
         
         # If no host account is explicitly defined in ENV, fallback to the first agent
-        if not HOST_ACCOUNT and self._is_fallback_host:
+        if not clean_host and self._is_fallback_host:
             is_host = True
             
         if is_host:
