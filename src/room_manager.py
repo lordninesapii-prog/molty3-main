@@ -12,10 +12,11 @@ from src import logger
 class RoomManager:
     """Manages game lifecycle: find → join → play → repeat."""
 
-    def __init__(self, api_client: MoltyAPIClient, room_type: str = None, room_name: str = None):
+    def __init__(self, api_client: MoltyAPIClient, room_type: str = None, room_name: str = None, is_host: bool = False):
         self.api = api_client
         self.room_type = room_type or ROOM_TYPE
         self.room_name = room_name
+        self.is_host = is_host
         self.agent_name = ""
         self._running = True
         self._consecutive_timeouts = 0
@@ -133,14 +134,19 @@ class RoomManager:
                         return game_id, agent_id
 
                 else:
-                    # No matching game found — try to create one
-                    game_id = self._try_create_game()
-                    if game_id:
-                        agent_id = self._register_in_game(game_id)
-                        if agent_id:
-                            self.last_game_name = self.room_name or f"{self.agent_name}'s Room"
-                            logger.joined_game("New Room", game_id, self.agent_name)
-                            return game_id, agent_id
+                    if self.is_host:
+                        # No matching game found — host creates one
+                        game_id = self._try_create_game()
+                        if game_id:
+                            agent_id = self._register_in_game(game_id)
+                            if agent_id:
+                                self.last_game_name = self.room_name or f"{self.agent_name}'s Room"
+                                logger.joined_game("New Room", game_id, self.agent_name)
+                                return game_id, agent_id
+                    else:
+                        # Non-host just waits
+                        print("")
+                        logger.info(f"Room '{self.room_name}' not found. Waiting for host to create it...")
 
                 # Adaptive polling interval
                 self._sleep_interruptible(self._get_poll_interval())

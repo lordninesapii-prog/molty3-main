@@ -147,7 +147,7 @@ def action(action_type, detail=""):
         "broadcast": "broadcast",
     }
     sym = symbols.get(action_type, SYM_GEAR)
-    detail_str = f" → {detail}" if detail else ""
+    detail_str = f" -> {detail}" if detail else ""
     _safe_print(f"{_get_prefix()}{Fore.WHITE}[{_ts()}] {sym} {Fore.MAGENTA}{Style.BRIGHT}ACTION: {action_type}{Fore.WHITE}{detail_str}")
     _emit_log("action", f"{sym} ACTION: {action_type}{detail_str}")
 

@@ -16,7 +16,7 @@ from src.bot import Bot
 from src.room_manager import RoomManager
 from src.ml.training import retrain_if_needed, get_model_status
 from src.ml.strategy_optimizer import optimizer as strategy_optimizer
-from src.config import ensure_data_dirs, load_api_key, load_room_type
+from src.config import ensure_data_dirs, load_api_key, load_room_type, HOST_ACCOUNT
 from src import logger
 
 
@@ -121,7 +121,10 @@ class MoltyBot:
         # ── Step 6: Initialize components ────────────────────────
         self.bot = Bot(self.api_client)
         self.bot._agent_label = self._agent_label or self.agent_name
-        self.room_manager = RoomManager(self.api_client, self._room_type, self._room_name)
+        is_host = (self.agent_name.lower() == HOST_ACCOUNT.lower())
+        if is_host:
+            logger.success(f"Agent {self.agent_name} is the designated HOST for room creation.", logger.SYM_STAR)
+        self.room_manager = RoomManager(self.api_client, self._room_type, self._room_name, is_host)
         self.room_manager.set_agent_name(self.agent_name)
         self.room_manager._agent_label = self._agent_label or self.agent_name
 

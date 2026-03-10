@@ -68,9 +68,37 @@ def load_room_name():
     """Load room name from env, fallback to auto-generated."""
     return os.environ.get("MR_ROOM_NAME") or generate_indo_room_name()
 
+def get_friendly_agents():
+    """Get list of friendly agent names to avoid attacking."""
+    friends = set()
+    
+    # Try MR_FRIENDS env var first (comma separated)
+    env_friends = os.environ.get("MR_FRIENDS")
+    if env_friends:
+        for f in env_friends.split(","):
+            if f.strip():
+                friends.add(f.strip().lower())
+                
+    # Parse accounts_db.json
+    try:
+        db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "accounts_db.json")
+        if os.path.exists(db_path):
+            with open(db_path, "r") as f:
+                data = json.load(f)
+                for account in data.get("accounts", []):
+                    name = account.get("name")
+                    if name:
+                        friends.add(name.lower())
+    except Exception as e:
+        print(f"Warning: Failed to load friendly agents from accounts_db.json: {e}")
+        
+    return list(friends)
+
 API_KEY = load_api_key()
 ROOM_TYPE = load_room_type()
 AUTO_ROOM_NAME = load_room_name()
+HOST_ACCOUNT = os.environ.get("MR_HOST_ACCOUNT", "martyr") # Default host
+FRIENDLY_AGENTS = get_friendly_agents()
 
 # ─── Game Time Constants ───────────────────────────────────────────
 TOTAL_TURNS = 56                    # 14 days × 4 turns/day

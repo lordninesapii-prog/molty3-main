@@ -6,7 +6,7 @@ Damage calculation, win probability, target selection, enemy healing analysis.
 import math
 from typing import Optional, Union
 from src.models import AgentSelf, VisibleAgent, Monster, GameState
-from src.config import RECOVERY_ITEMS, load_strategy_weights
+from src.config import RECOVERY_ITEMS, load_strategy_weights, FRIENDLY_AGENTS
 
 
 def calculate_damage(attacker_atk: int, weapon_bonus: int, target_def: int) -> int:
@@ -197,8 +197,29 @@ def select_best_target(state: GameState) -> Optional[dict]:
     agent = state.self_agent
     game_phase = _get_game_phase(state)
     has_weapon = agent.weapon_atk_bonus > 0
-    agents_here = state.agents_in_region()
     in_danger = state.in_death_zone or state.in_pending_death_zone
+
+    # ── TEAM COOPERATION LOGIC ──
+    # Check if there are any non-friendly agents visible globally
+    any_hostiles_visible = any(
+        a.is_alive and a.name.lower() not in FRIENDLY_AGENTS 
+        for a in state.visible_agents
+    )
+    
+    # We can only attack a target if they are NOT a friend, 
+    # OR if it's late game and there are no hostiles visible.
+    def is_targetable(enemy_agent: VisibleAgent) -> bool:
+        if not enemy_agent.is_alive:
+            return False
+        is_friend = enemy_agent.name.lower() in FRIENDLY_AGENTS
+        if not is_friend:
+            return True  # Always attack hostiles
+        # It IS a friend. Only attack if late game AND no hostiles around.
+        if game_phase == "late" and not any_hostiles_visible:
+            return True
+        return False
+
+    agents_here = [a for a in state.agents_in_region() if is_targetable(a)]
 
     # ── FLEE SIGNAL: death zone + many hostiles = don't fight, run ──
     if in_danger and len(agents_here) >= 3:
@@ -210,15 +231,14 @@ def select_best_target(state: GameState) -> Optional[dict]:
 
         # Same-region enemies (melee + ranged)
         for enemy in agents_here:
-            if enemy.is_alive:
-                analysis = get_combat_analysis(agent, enemy)
-                all_enemies.append((enemy, analysis, "same"))
+            analysis = get_combat_analysis(agent, enemy)
+            all_enemies.append((enemy, analysis, "same"))
 
         # Adjacent-region enemies (ranged weapon only)
         if agent.weapon_range >= 1:
             for region in state.connected_regions:
                 for enemy in state.agents_in_region(region.id):
-                    if enemy.is_alive:
+                    if is_targetable(enemy):
                         analysis = get_combat_analysis(agent, enemy)
                         all_enemies.append((enemy, analysis, "adjacent"))
 
