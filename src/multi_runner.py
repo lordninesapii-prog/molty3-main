@@ -60,9 +60,9 @@ def load_api_keys():
     return []
 
 
-def run_agent(api_key, room_type, agent_label, stop_event):
+def run_agent(api_key, room_type, room_name, agent_label, stop_event):
     """Run a single agent in its own thread."""
-    bot = MoltyBot(api_key=api_key, room_type=room_type, agent_label=agent_label)
+    bot = MoltyBot(api_key=api_key, room_type=room_type, room_name=room_name, agent_label=agent_label)
 
     # Monitor stop event to gracefully stop this agent
     def check_stop():
@@ -96,10 +96,10 @@ def main():
         Style = _D()
 
     print("")
-    print(f"{Fore.CYAN}{Style.BRIGHT}╔══════════════════════════════════════════════════════════╗")
-    print(f"{Fore.CYAN}{Style.BRIGHT}║     🤖  MOLTY ROYALE — MULTI-AGENT RUNNER  🤖          ║")
-    print(f"{Fore.CYAN}{Style.BRIGHT}║        Up to 5 agents • 5 API keys • 1 IP              ║")
-    print(f"{Fore.CYAN}{Style.BRIGHT}╚══════════════════════════════════════════════════════════╝")
+    print(f"{Fore.CYAN}{Style.BRIGHT}==========================================================")
+    print(f"{Fore.CYAN}{Style.BRIGHT}      MOLTY ROYALE - MULTI-AGENT RUNNER")
+    print(f"{Fore.CYAN}{Style.BRIGHT}      Up to 5 agents - 5 API keys - 1 IP")
+    print(f"{Fore.CYAN}{Style.BRIGHT}==========================================================")
     print("")
 
     # Load API keys
@@ -112,6 +112,10 @@ def main():
         sys.exit(1)
 
     room_type = load_room_type()
+    
+    from src.config import AUTO_ROOM_NAME
+    room_name = AUTO_ROOM_NAME
+    
     ensure_data_dirs()
 
     # Initialize Supabase cloud storage (graceful if not configured)
@@ -125,7 +129,8 @@ def main():
     for i, key in enumerate(api_keys):
         logger.info(f"  Agent-{i+1}: {key[:12]}...{key[-4:]}")
     logger.info(f"Room type: {room_type.upper()}", logger.SYM_GEAR)
-    logger.separator("═")
+    logger.info(f"Target Room: {room_name}", logger.SYM_STAR)
+    logger.separator("=")
 
     # ── Start Dashboard Server ─────────────────────────────────
     try:
@@ -157,7 +162,7 @@ def main():
         label = f"Agent-{i+1}"
         t = threading.Thread(
             target=run_agent,
-            args=(key, room_type, label, stop_event),
+            args=(key, room_type, room_name, label, stop_event),
             name=label,
             daemon=False,
         )
@@ -169,9 +174,9 @@ def main():
         if i < len(threads) - 1:
             time.sleep(2)  # 2s stagger between agent starts
 
-    logger.separator("═")
+    logger.separator("=")
     logger.success(f"All {len(threads)} agent(s) started! Press Ctrl+C to stop all.")
-    logger.separator("═")
+    logger.separator("=")
 
     # Wait for all threads to finish
     try:
@@ -185,9 +190,9 @@ def main():
 
     # Final summary
     print("")
-    logger.separator("═")
+    logger.separator("=")
     logger.success("All agents stopped. Goodbye!", logger.SYM_BOT)
-    logger.separator("═")
+    logger.separator("=")
 
 
 if __name__ == "__main__":

@@ -54,10 +54,10 @@ class Bot:
         # Start data collection
         data_collector.start_game(game_id, agent_name)
 
-        logger.separator("═")
+        logger.separator("=")
         logger.info(f"Game loop started. Agent: {agent_name}", logger.SYM_BOT)
         logger.info(f"Waiting for game to start...")
-        logger.separator("─")
+        logger.separator("-")
 
         # Wait for game to start (if still waiting)
         if not self._wait_for_game_start():
@@ -269,7 +269,7 @@ class Bot:
     def _handle_death(self, state: GameState):
         """Handle agent death."""
         logger.critical(f"Agent {self.agent_name} has been eliminated!")
-        logger.info(f"Final stats — Kills: {state.self_agent.kills}")
+        logger.info(f"Final stats - Kills: {state.self_agent.kills}")
 
         # Estimate rank: alive agents + 1 (we just died)
         alive_count = sum(1 for a in state.visible_agents if a.is_alive) + 1

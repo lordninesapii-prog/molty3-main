@@ -172,4 +172,4 @@ export MR_ROOM_TYPE="$ROOM_TYPE"
 
 # Run the bot
 cd "$SCRIPT_DIR"
-python3 -m src.main
+python3 -m src.multi_runner

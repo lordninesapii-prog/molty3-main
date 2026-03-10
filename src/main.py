@@ -23,7 +23,7 @@ from src import logger
 class MoltyBot:
     """Main orchestrator — continuous game lifecycle."""
 
-    def __init__(self, api_key: str = None, room_type: str = None, agent_label: str = ""):
+    def __init__(self, api_key: str = None, room_type: str = None, room_name: str = None, agent_label: str = ""):
         self._running = True
         self.api_client = None
         self.bot = None
@@ -32,6 +32,7 @@ class MoltyBot:
         self.games_played = 0
         self._api_key = api_key  # None = load from env (backward compatible)
         self._room_type = room_type  # None = load from env
+        self._room_name = room_name  # None = auto-generate (fallback)
         self._agent_label = agent_label  # For multi-agent log prefix
 
         # Register signal handlers for graceful shutdown
@@ -88,12 +89,12 @@ class MoltyBot:
             total_wins = account.get("totalWins", 0)
             wallet = account.get("walletAddress", "Not set")
 
-            logger.separator("─")
+            logger.separator("-")
             logger.info(f"Account: {self.agent_name}", logger.SYM_BOT)
             logger.info(f"Balance: {balance} $Moltz", logger.SYM_MONEY)
             logger.info(f"Record : {total_wins}W / {total_games}G", logger.SYM_TROPHY)
             logger.info(f"Wallet : {wallet[:10]}...{wallet[-6:]}" if len(str(wallet)) > 20 else f"Wallet : {wallet}")
-            logger.separator("─")
+            logger.separator("-")
 
             # Update prefix to real agent name (replaces generic "Agent-1" etc.)
             if self._agent_label:
@@ -120,7 +121,7 @@ class MoltyBot:
         # ── Step 6: Initialize components ────────────────────────
         self.bot = Bot(self.api_client)
         self.bot._agent_label = self._agent_label or self.agent_name
-        self.room_manager = RoomManager(self.api_client, room_type)
+        self.room_manager = RoomManager(self.api_client, self._room_type, self._room_name)
         self.room_manager.set_agent_name(self.agent_name)
         self.room_manager._agent_label = self._agent_label or self.agent_name
 
@@ -161,9 +162,9 @@ class MoltyBot:
         except Exception as e:
             logger.warning(f"Dashboard: {e}")
 
-        logger.separator("═")
+        logger.separator("=")
         logger.success("Bot initialized! Starting game lifecycle...", logger.SYM_BOT)
-        logger.separator("═")
+        logger.separator("=")
 
         # ── Step 7: Continuous game lifecycle ─────────────────────
         while self._running:
@@ -197,7 +198,7 @@ class MoltyBot:
                     break
 
                 # Post-game: ML update
-                logger.separator("─")
+                logger.separator("-")
                 logger.info(f"Game #{self.games_played} complete. Running post-game analysis...")
 
                 # Retrain ML model if needed
@@ -207,7 +208,7 @@ class MoltyBot:
                 strategy_optimizer.update_weights()
                 logger.info(f"Strategy: {strategy_optimizer.get_summary()}", logger.SYM_GEAR)
 
-                logger.separator("─")
+                logger.separator("-")
                 logger.info("Looking for next game...", logger.SYM_SEARCH)
 
                 # Brief pause before looking for next game
@@ -219,7 +220,7 @@ class MoltyBot:
                     self._sleep_interruptible(15)
 
         # ── Shutdown ─────────────────────────────────────────────
-        logger.separator("═")
+        logger.separator("=")
         logger.info(f"Total games played this session: {self.games_played}", logger.SYM_TROPHY)
         logger.info(get_model_status(), logger.SYM_GEAR)
         logger.success("Bot shutdown complete. Goodbye!", logger.SYM_BOT)

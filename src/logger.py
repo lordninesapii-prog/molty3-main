@@ -61,28 +61,28 @@ except ImportError:
     Style = _Dummy()
 
 # ─── Symbols ────────────────────────────────────────────────────────
-SYM_SWORD   = "⚔️"
-SYM_SHIELD  = "🛡️"
-SYM_HEART   = "❤️"
-SYM_BOLT    = "⚡"
-SYM_SKULL   = "💀"
-SYM_TROPHY  = "🏆"
-SYM_MAP     = "🗺️"
-SYM_EYE     = "👁️"
-SYM_WARN    = "⚠️"
-SYM_FIRE    = "🔥"
-SYM_CHECK   = "✅"
-SYM_CROSS   = "❌"
-SYM_CLOCK   = "🕐"
-SYM_GEAR    = "⚙️"
-SYM_STAR    = "⭐"
-SYM_MONEY   = "💰"
-SYM_RUN     = "🏃"
-SYM_REST    = "😴"
-SYM_SEARCH  = "🔍"
-SYM_HEAL    = "💊"
-SYM_BOT     = "🤖"
-SYM_ZONE    = "☠️"
+SYM_SWORD   = "[X]"
+SYM_SHIELD  = "[O]"
+SYM_HEART   = "<3"
+SYM_BOLT    = "!"
+SYM_SKULL   = "(x_x)"
+SYM_TROPHY  = "[W]"
+SYM_MAP     = "[M]"
+SYM_EYE     = "(o)"
+SYM_WARN    = "/!\\"
+SYM_FIRE    = "^^^"
+SYM_CHECK   = "[v]"
+SYM_CROSS   = "[x]"
+SYM_CLOCK   = "[T]"
+SYM_GEAR    = "{*}"
+SYM_STAR    = "[*]"
+SYM_MONEY   = "[$]"
+SYM_RUN     = ">>"
+SYM_REST    = "zZ"
+SYM_SEARCH  = "[?]"
+SYM_HEAL    = "[+]"
+SYM_BOT     = "[B]"
+SYM_ZONE    = "(!)"
 
 # ─── Timestamp ──────────────────────────────────────────────────────
 def _ts():
@@ -95,10 +95,10 @@ def banner():
     prefix = _get_prefix()
     lines = [
         "",
-        f"{prefix}{Fore.CYAN}{Style.BRIGHT}╔══════════════════════════════════════════════════════════╗",
-        f"{prefix}{Fore.CYAN}{Style.BRIGHT}║          {SYM_BOT}  MOLTY ROYALE AI AGENT BOT  {SYM_BOT}              ║",
-        f"{prefix}{Fore.CYAN}{Style.BRIGHT}║     Continuous Learning • Smart Strategy • Kills Max    ║",
-        f"{prefix}{Fore.CYAN}{Style.BRIGHT}╚══════════════════════════════════════════════════════════╝",
+        f"{prefix}{Fore.CYAN}{Style.BRIGHT}==========================================================",
+        f"{prefix}{Fore.CYAN}{Style.BRIGHT}           {SYM_BOT}  MOLTY ROYALE AI AGENT BOT  {SYM_BOT}               ",
+        f"{prefix}{Fore.CYAN}{Style.BRIGHT}      Continuous Learning * Smart Strategy * Kills Max    ",
+        f"{prefix}{Fore.CYAN}{Style.BRIGHT}==========================================================",
         "",
     ]
     with _print_lock:
@@ -142,9 +142,9 @@ def action(action_type, detail=""):
         "rest": SYM_REST,
         "pickup": SYM_MONEY,
         "equip": SYM_SHIELD,
-        "talk": "💬",
-        "whisper": "🤫",
-        "broadcast": "📢",
+        "talk": "talk",
+        "whisper": "whisper",
+        "broadcast": "broadcast",
     }
     sym = symbols.get(action_type, SYM_GEAR)
     detail_str = f" → {detail}" if detail else ""
@@ -159,11 +159,11 @@ def status_bar(hp, max_hp, ep, max_ep, kills, turn, region_name, weapon_name="Fi
 
     bar = (
         f"{_get_prefix()}{Fore.WHITE}[{_ts()}] "
-        f"{SYM_CLOCK} T{turn:02d} │ "
-        f"{SYM_HEART} {hp_color}{hp}/{max_hp}{Fore.WHITE} │ "
-        f"{SYM_BOLT} {ep_color}{ep}/{max_ep}{Fore.WHITE} │ "
-        f"{SYM_SWORD} {Fore.YELLOW}{weapon_name}{Fore.WHITE} │ "
-        f"{SYM_SKULL} {Fore.RED}{kills}{Fore.WHITE} kills │ "
+        f"{SYM_CLOCK} T{turn:02d} | "
+        f"{SYM_HEART} {hp_color}{hp}/{max_hp}{Fore.WHITE} | "
+        f"{SYM_BOLT} {ep_color}{ep}/{max_ep}{Fore.WHITE} | "
+        f"{SYM_SWORD} {Fore.YELLOW}{weapon_name}{Fore.WHITE} | "
+        f"{SYM_SKULL} {Fore.RED}{kills}{Fore.WHITE} kills | "
         f"{SYM_MAP} {Fore.BLUE}{region_name}"
     )
     _safe_print(bar)
@@ -181,16 +181,16 @@ def game_result(rank, kills, moltz, is_winner):
     with _print_lock:
         print("")
         if is_winner:
-            print(f"{prefix}{Fore.YELLOW}{Style.BRIGHT}{'═' * 58}")
+            print(f"{prefix}{Fore.YELLOW}{Style.BRIGHT}{'=' * 58}")
             print(f"{prefix}{Fore.YELLOW}{Style.BRIGHT}  {SYM_TROPHY}  VICTORY!  {SYM_TROPHY}")
-            print(f"{prefix}{Fore.YELLOW}{Style.BRIGHT}{'═' * 58}")
+            print(f"{prefix}{Fore.YELLOW}{Style.BRIGHT}{'=' * 58}")
         else:
-            print(f"{prefix}{Fore.WHITE}{'─' * 58}")
+            print(f"{prefix}{Fore.WHITE}{'-' * 58}")
             print(f"{prefix}{Fore.WHITE}  {SYM_STAR} Game Over")
-            print(f"{prefix}{Fore.WHITE}{'─' * 58}")
+            print(f"{prefix}{Fore.WHITE}{'-' * 58}")
 
-        print(f"{prefix}  Rank: #{rank}  │  Kills: {kills}  │  Moltz: {moltz}")
-        print(f"{prefix}{'═' * 58 if is_winner else '─' * 58}")
+        print(f"{prefix}  Rank: #{rank}  |  Kills: {kills}  |  Moltz: {moltz}")
+        print(f"{prefix}{'=' * 58 if is_winner else '-' * 58}")
         print("")
 
 def combat_analysis(target_name, target_hp, win_prob, our_dmg, their_dmg, has_healing=False):
@@ -200,13 +200,13 @@ def combat_analysis(target_name, target_hp, win_prob, our_dmg, their_dmg, has_he
     _safe_print(
         f"{_get_prefix()}{Fore.WHITE}[{_ts()}] {SYM_EYE} "
         f"{Fore.CYAN}COMBAT ANALYSIS: {Fore.WHITE}{target_name} "
-        f"(HP:{target_hp}{heal_note}{Fore.WHITE}) │ "
-        f"Win: {prob_color}{win_prob:.0%}{Fore.WHITE} │ "
-        f"Our DMG: {Fore.GREEN}{our_dmg}{Fore.WHITE} │ "
+        f"(HP:{target_hp}{heal_note}{Fore.WHITE}) | "
+        f"Win: {prob_color}{win_prob:.0%}{Fore.WHITE} | "
+        f"Our DMG: {Fore.GREEN}{our_dmg}{Fore.WHITE} | "
         f"Their DMG: {Fore.RED}{their_dmg}"
     )
 
-def separator(char="─", length=58):
+def separator(char="-", length=58):
     """Print a visual separator."""
     _safe_print(f"{_get_prefix()}{Fore.WHITE}{char * length}")
 
@@ -219,23 +219,23 @@ def turn_header(turn_num, total_turns=56):
     prefix = _get_prefix()
     with _print_lock:
         print("")
-        print(f"{prefix}{Fore.WHITE}{'═' * 58}")
+        print(f"{prefix}{Fore.WHITE}{'=' * 58}")
         print(
             f"{prefix}{Fore.CYAN}{Style.BRIGHT}  {SYM_CLOCK} TURN {turn_num}/{total_turns} "
-            f"│ Day {game_day} {time_slot:02d}:00 "
-            f"│ [{_ts()}]"
+            f"| Day {game_day} {time_slot:02d}:00 "
+            f"| [{_ts()}]"
         )
-        print(f"{prefix}{Fore.WHITE}{'═' * 58}")
+        print(f"{prefix}{Fore.WHITE}{'=' * 58}")
 
 def shutdown_message():
     """Print graceful shutdown message."""
     prefix = _get_prefix()
     with _print_lock:
         print("")
-        print(f"{prefix}{Fore.YELLOW}{Style.BRIGHT}{'─' * 58}")
+        print(f"{prefix}{Fore.YELLOW}{Style.BRIGHT}{'-' * 58}")
         print(f"{prefix}{Fore.YELLOW}{Style.BRIGHT}  {SYM_BOT} Bot shutting down gracefully...")
         print(f"{prefix}{Fore.YELLOW}{Style.BRIGHT}  Saving data and cleaning up...")
-        print(f"{prefix}{Fore.YELLOW}{Style.BRIGHT}{'─' * 58}")
+        print(f"{prefix}{Fore.YELLOW}{Style.BRIGHT}{'-' * 58}")
         print("")
 
 def waiting_for_game(check_count, room_type="free"):
@@ -254,5 +254,5 @@ def joined_game(game_name, game_id, agent_name):
 
 def ml_update(games_played, model_accuracy=None):
     """Log ML model update."""
-    acc_str = f" │ Accuracy: {model_accuracy:.1%}" if model_accuracy else ""
+    acc_str = f" | Accuracy: {model_accuracy:.1%}" if model_accuracy else ""
     info(f"ML Model updated (trained on {games_played} games{acc_str})", SYM_GEAR)

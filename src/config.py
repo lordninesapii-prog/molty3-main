@@ -5,6 +5,8 @@ All game constants, API settings, and tunable strategy parameters.
 
 import os
 import json
+import random
+from datetime import datetime
 
 # ─── API Configuration ─────────────────────────────────────────────
 BASE_URL = "https://cdn.moltyroyale.com/api"
@@ -33,8 +35,42 @@ def load_room_type():
             return data.get("room_type", "free")
     return "free"
 
+# ─── Indonesian Room Name Generator ────────────────────────────────
+NOUNS_ID = [
+    "Harimau", "Garuda", "Kancil", "Kucing", "Singa", "Elang", "Naga", "Serigala",
+    "Beruang", "Kuda", "Banteng", "Hiu", "Paus", "Rajawali", "Macan", "Bima"
+]
+ADJECTIVES_ID = [
+    "Sakti", "Hitam", "Putih", "Emas", "Perkasa", "Gesit", "Cepat", "Kuat",
+    "Ganas", "Kilat", "Petir", "Api", "Es", "Bayangan", "Baja", "Bintang"
+]
+
+def generate_indo_room_name():
+    """Generate a consistent random name like 'Harimau Sakti' based on the current hour."""
+    # Use current Date + Hour as seed (e.g., "2026031021")
+    # This ensures bots running in the same hour generate the exact same room name
+    seed_str = datetime.now().strftime("%Y%m%d%H")
+    seed_val = int(seed_str)
+    
+    # Store old state to avoid affecting other random calls
+    old_state = random.getstate()
+    random.seed(seed_val)
+    
+    noun = random.choice(NOUNS_ID)
+    adj = random.choice(ADJECTIVES_ID)
+    
+    # Restore old state
+    random.setstate(old_state)
+    
+    return f"{noun} {adj}"
+
+def load_room_name():
+    """Load room name from env, fallback to auto-generated."""
+    return os.environ.get("MR_ROOM_NAME") or generate_indo_room_name()
+
 API_KEY = load_api_key()
 ROOM_TYPE = load_room_type()
+AUTO_ROOM_NAME = load_room_name()
 
 # ─── Game Time Constants ───────────────────────────────────────────
 TOTAL_TURNS = 56                    # 14 days × 4 turns/day

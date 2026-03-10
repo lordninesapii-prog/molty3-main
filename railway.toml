@@ -13,6 +13,7 @@ builder = "dockerfile"
 dockerfilePath = "Dockerfile"
 
 [deploy]
+startCommand = "python -m src.multi_runner"
 restartPolicyType = "always"
 healthcheckPath = "/"
 numReplicas = 1

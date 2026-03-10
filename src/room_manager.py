@@ -12,9 +12,10 @@ from src import logger
 class RoomManager:
     """Manages game lifecycle: find → join → play → repeat."""
 
-    def __init__(self, api_client: MoltyAPIClient, room_type: str = None):
+    def __init__(self, api_client: MoltyAPIClient, room_type: str = None, room_name: str = None):
         self.api = api_client
         self.room_type = room_type or ROOM_TYPE
+        self.room_name = room_name
         self.agent_name = ""
         self._running = True
         self._consecutive_timeouts = 0
@@ -112,6 +113,10 @@ class RoomManager:
 
                 # Filter by room type
                 matching = [g for g in games if g.get("entryType", "free") == self.room_type]
+                
+                # Filter by room name if specified
+                if self.room_name:
+                    matching = [g for g in matching if g.get("name", "") == self.room_name]
 
                 if matching:
                     game = matching[0]
@@ -133,7 +138,7 @@ class RoomManager:
                     if game_id:
                         agent_id = self._register_in_game(game_id)
                         if agent_id:
-                            self.last_game_name = f"{self.agent_name}'s Room"
+                            self.last_game_name = self.room_name or f"{self.agent_name}'s Room"
                             logger.joined_game("New Room", game_id, self.agent_name)
                             return game_id, agent_id
 
@@ -238,8 +243,9 @@ class RoomManager:
     def _try_create_game(self) -> str:
         """Try to create a new game room. Returns game_id or empty string."""
         try:
+            host_name = self.room_name if self.room_name else f"{self.agent_name}'s Room"
             game_data = self.api.create_game(
-                host_name=f"{self.agent_name}'s Room",
+                host_name=host_name,
                 entry_type=self.room_type,
             )
             game_id = game_data.get("id", "")
@@ -261,7 +267,7 @@ class RoomManager:
 
         if not game_id:
             logger.info(
-                f"⏳ Sudah terdaftar di {room_label} game yang sedang berlangsung. "
+                f"[WAIT] Sudah terdaftar di {room_label} game yang sedang berlangsung. "
                 f"Menunggu game selesai sebelum join game baru..."
             )
             return
@@ -280,20 +286,20 @@ class RoomManager:
 
                 if game_status == "running":
                     logger.info(
-                        f"⏳ {room_label} game [{short_id}...] sedang berlangsung — "
+                        f"[WAIT] {room_label} game [{short_id}...] sedang berlangsung - "
                         f"Turn {current_turn}/{max_turns}, "
                         f"Agents hidup: {alive_agents}/{total_agents}. "
                         f"Harap tunggu game selesai."
                     )
                 elif game_status == "waiting":
                     logger.info(
-                        f"⏳ {room_label} game [{short_id}...] menunggu pemain — "
+                        f"[WAIT] {room_label} game [{short_id}...] menunggu pemain - "
                         f"Players: {total_agents}/? "
                         f"Harap tunggu game dimulai."
                     )
                 else:
                     logger.info(
-                        f"⏳ {room_label} game [{short_id}...] status: {game_status}. "
+                        f"[WAIT] {room_label} game [{short_id}...] status: {game_status}. "
                         f"Harap tunggu game selesai."
                     )
                 return
@@ -302,7 +308,7 @@ class RoomManager:
 
         # Fallback with game ID but no state details
         logger.info(
-            f"⏳ {room_label} game [{short_id}...] sedang berlangsung. "
+            f"[WAIT] {room_label} game [{short_id}...] sedang berlangsung. "
             f"Harap tunggu game selesai."
         )
 
