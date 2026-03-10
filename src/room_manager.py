@@ -12,6 +12,26 @@ from src import logger
 # Global lock to prevent multiple agents in the same process from creating a room simultaneously.
 CREATE_GAME_LOCK = threading.Lock()
 
+class _SharedState:
+    """Shared memory for rapid P2P joining within the same multi-runner instance."""
+    def __init__(self):
+        self.game_id: str = ""
+        self.timestamp: float = 0.0
+        self.lock = threading.Lock()
+
+    def set_game(self, game_id: str):
+        with self.lock:
+            self.game_id = game_id
+            self.timestamp = time.time()
+
+    def get_recent_game(self, max_age: float = 10.0) -> str:
+        with self.lock:
+            if self.game_id and (time.time() - self.timestamp) < max_age:
+                return self.game_id
+            return ""
+
+SHARED_STATE = _SharedState()
+
 class RoomManager:
     """Manages game lifecycle: find → join → play → repeat."""
 
@@ -112,6 +132,20 @@ class RoomManager:
                 logger.waiting_for_game(check_count, self.room_type)
                 self._dash_status("searching")
 
+                # 1. Check P2P Shared Memory (bypasses list_games API for instant joining!)
+                # This only works for agents running in the exact same multi_runner.py execution.
+                if self.room_name:
+                    recent_shared_id = SHARED_STATE.get_recent_game(max_age=10.0)
+                    if recent_shared_id:
+                        agent_id = self._register_in_game(recent_shared_id)
+                        if agent_id:
+                            self.last_game_name = self.room_name
+                            print("")
+                            logger.success(f"[P2P SHARE] Instantly joined {self.room_type} room: {self.room_name}")
+                            logger.joined_game(self.room_name, recent_shared_id, self.agent_name)
+                            return recent_shared_id, agent_id
+
+                # 2. If no shared game, request list from API (slower)
                 games = self.api.list_games("waiting")
                 self._consecutive_timeouts = 0  # Server responded!
 
@@ -280,6 +314,7 @@ class RoomManager:
                 )
                 game_id = game_data.get("id", "")
                 if game_id:
+                    SHARED_STATE.set_game(game_id)  # Broadcast to peers instantly!
                     print("")  # New line after waiting indicator
                     logger.success(f"Created new {self.room_type} game room!", logger.SYM_STAR)
                 return game_id
