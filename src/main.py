@@ -132,6 +132,8 @@ class MoltyBot:
         if not clean_host and self._is_fallback_host:
             is_host = True
             
+        logger.info(f"DEBUG HOST: name='{clean_name}', env_host='{clean_host}', fallback={self._is_fallback_host} => is_host={is_host}")
+            
         if is_host:
             logger.success(f"Agent {self.agent_name} is the designated HOST for room creation.", logger.SYM_STAR)
             
