@@ -134,8 +134,10 @@ class RoomManager:
                         return game_id, agent_id
 
                 else:
-                    if self.is_host:
-                        # No matching game found — host creates one
+                    # No matching game found. If a specific room_name is targeted, EVERYONE can try to create it.
+                    # This decentralizes room creation to avoid rate limits (Anti-Spam) on a single host.
+                    # If someone else creates it first, this agent cleanly catches WAITING_GAME_EXISTS.
+                    if self.room_name or self.is_host:
                         game_id = self._try_create_game()
                         if game_id:
                             agent_id = self._register_in_game(game_id)
@@ -143,14 +145,17 @@ class RoomManager:
                                 self.last_game_name = self.room_name or f"{self.agent_name}'s Room"
                                 logger.joined_game("New Room", game_id, self.agent_name)
                                 return game_id, agent_id
+                        elif not self.is_host:
+                            # If creation failed but they aren't the primary host, just log that they're waiting
+                            print("")
+                            logger.info(f"Room '{self.room_name}' not found. Waiting for it to be created...")
                     else:
-                        # Non-host just waits
                         print("")
-                        logger.info(f"Room '{self.room_name}' not found. Waiting for host to create it...")
+                        logger.info(f"Waiting for a '{self.room_type}' room to appear...")
 
-                # Adaptive polling interval, but AGGRESSIVE (0.5s) if we are searching for a specific host room
-                # since free 100/100 rooms fill up in < 3 seconds!
-                poll_time = 0.5 if (self.room_name and not self.is_host) else self._get_poll_interval()
+                # AGGRESSIVE (0.5s) polling for EVERYONE targeting a specific room
+                # to snipe free 100/100 rooms that fill in < 3 seconds
+                poll_time = 0.5 if self.room_name else self._get_poll_interval()
                 self._sleep_interruptible(poll_time)
 
             except APIError as e:
