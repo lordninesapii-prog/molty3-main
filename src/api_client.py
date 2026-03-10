@@ -201,6 +201,20 @@ class MoltyAPIClient:
                     logger.error(f"Connect timeout after {retries} attempts")
                     raise APIError(str(e), "CONNECT_TIMEOUT")
 
+            except ValueError as e:
+                self._consecutive_failures += 1
+                last_error = e
+                wait = self._get_backoff_wait(attempt, retry_delay)
+                if attempt < retries - 1:
+                    logger.warning(
+                        f"JSON Parse error (attempt {attempt + 1}/{retries}). "
+                        f"Server may be down. Retrying in {wait:.1f}s..."
+                    )
+                    time.sleep(wait)
+                else:
+                    logger.error(f"Failed to parse JSON after {retries} attempts: {e}")
+                    raise APIError(str(e), "NETWORK_ERROR")
+
             except requests.exceptions.RequestException as e:
                 self._consecutive_failures += 1
                 last_error = e
