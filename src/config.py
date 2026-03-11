@@ -50,7 +50,7 @@ def get_deterministic_room_name():
     Generate room name dynamically based on the current date and hour.
     Example: 'SingaHitam17', 'KobraEmas0', etc.
     """
-    now = datetime.now()
+    now = datetime.now(timezone.utc)
     tanggal = now.strftime('%Y-%m-%d')
     jam = now.hour # 0 - 23
 

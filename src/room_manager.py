@@ -73,7 +73,7 @@ class RoomManager:
         
         Using Turn-Based Hosting (5 Core Hosts).
         """
-        from datetime import datetime
+        from datetime import datetime, timezone
         from src.config import get_deterministic_room_name
         
         # Step 1: Check if already in a game
@@ -169,7 +169,7 @@ class RoomManager:
                 else:
                     # 3. Create room logic (Turn-Based Core Host Setup)
                     if self.is_host and self.agent_index != -1:
-                        current_hour = datetime.now().hour
+                        current_hour = datetime.now(timezone.utc).hour
                         total_core_hosts = 5
                         turn_index = current_hour % total_core_hosts
                         
