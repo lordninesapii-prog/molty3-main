@@ -23,7 +23,7 @@ from src import logger
 class MoltyBot:
     """Main orchestrator — continuous game lifecycle."""
 
-    def __init__(self, api_key: str = None, room_type: str = None, room_name: str = None, agent_label: str = "", is_fallback_host: bool = False):
+    def __init__(self, api_key: str = None, room_type: str = None, room_name: str = None, agent_label: str = "", is_fallback_host: bool = False, agent_index: int = -1):
         self._running = True
         self.api_client = None
         self.bot = None
@@ -35,6 +35,7 @@ class MoltyBot:
         self._room_name = room_name  # None = auto-generate (fallback)
         self._agent_label = agent_label  # For multi-agent log prefix
         self._is_fallback_host = is_fallback_host
+        self._agent_index = agent_index # Index 0..4 for the 5 core hosts
 
         # Register signal handlers for graceful shutdown
         # Only register in main thread to avoid errors in worker threads
@@ -137,7 +138,7 @@ class MoltyBot:
         if is_host:
             logger.success(f"Agent {self.agent_name} is the designated HOST for room creation.", logger.SYM_STAR)
             
-        self.room_manager = RoomManager(self.api_client, self._room_type, self._room_name, is_host)
+        self.room_manager = RoomManager(self.api_client, self._room_type, self._room_name, is_host, self._agent_index)
         self.room_manager.set_agent_name(self.agent_name)
         self.room_manager._agent_label = self._agent_label or self.agent_name
 

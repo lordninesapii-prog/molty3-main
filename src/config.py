@@ -45,28 +45,35 @@ ADJECTIVES_ID = [
     "Ganas", "Kilat", "Petir", "Api", "Es", "Bayangan", "Baja", "Bintang"
 ]
 
-def generate_indo_room_name():
-    """Generate a consistent random name like 'Harimau Sakti' based on the current day."""
-    # Use current Date as seed in UTC to avoid hourly desynchronization
-    # e.g., "20260310"
-    seed_str = datetime.now(timezone.utc).strftime("%Y%m%d")
-    seed_val = int(seed_str)
-    
-    # Store old state to avoid affecting other random calls
-    old_state = random.getstate()
-    random.seed(seed_val)
-    
-    noun = random.choice(NOUNS_ID)
-    adj = random.choice(ADJECTIVES_ID)
-    
-    # Restore old state
-    random.setstate(old_state)
-    
-    return f"{noun} {adj}"
+def get_deterministic_room_name():
+    """
+    Generate room name dynamically based on the current date and hour.
+    Example: 'SingaHitam17', 'KobraEmas0', etc.
+    """
+    now = datetime.now()
+    tanggal = now.strftime('%Y-%m-%d')
+    jam = now.hour # 0 - 23
+
+    if tanggal == "2026-03-11":
+        kata_kunci = "SingaHitam"
+    else:
+        # Gunakan seed berdasarkan tanggal saja agar konsisten selama 24 jam
+        old_state = random.getstate()
+        random.seed(tanggal)
+        hewan = ["Singa", "Elang", "Macan", "Hiu", "Serigala", "Naga", "Paus", "Rajawali", "Harimau", "Beruang",
+                 "Banteng", "Kuda", "Badak", "Kobra", "Garuda", "Buaya", "Gorila", "Komodo", "Cheetah", "Jaguar"]
+        warna = ["Hitam", "Putih", "Merah", "Biru", "Emas", "Perak", "Hijau", "Kuning", "Ungu", "Coklat",
+                 "Gelap", "Terang", "Besi", "Baja", "Batu", "Kayu", "Api", "Es", "Petir", "Angin"]
+        
+        kata_kunci = f"{random.choice(hewan)}{random.choice(warna)}"
+        random.setstate(old_state)
+
+    return f"{kata_kunci}{jam}"
 
 def load_room_name():
-    """Load room name from env, fallback to auto-generated."""
-    return os.environ.get("MR_ROOM_NAME") or generate_indo_room_name()
+    """Load room name from env, fallback to auto-generated hourly room."""
+    # Selalu hitung nama ruangan secara dinamis saat diperlukan.
+    return os.environ.get("MR_ROOM_NAME") or "DYNAMIC_TIME_BASED"
 
 def get_friendly_agents():
     """Get list of friendly agent names to avoid attacking."""

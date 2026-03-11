@@ -60,9 +60,18 @@ def load_api_keys():
     return []
 
 
-def run_agent(api_key, room_type, room_name, agent_label, stop_event, is_fallback_host=False):
+def run_agent(api_key, room_type, room_name, agent_label, stop_event, agent_index):
     """Run a single agent in its own thread."""
-    bot = MoltyBot(api_key=api_key, room_type=room_type, room_name=room_name, agent_label=agent_label, is_fallback_host=is_fallback_host)
+    # Since this script runs the 5 Core Hosts, they are ALL considered fallback/core hosts.
+    # They will take turns creating the room based on their agent_index.
+    bot = MoltyBot(
+        api_key=api_key, 
+        room_type=room_type, 
+        room_name=room_name, 
+        agent_label=agent_label, 
+        is_fallback_host=True, 
+        agent_index=agent_index
+    )
 
     # Monitor stop event to gracefully stop this agent
     def check_stop():

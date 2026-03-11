@@ -36,11 +36,12 @@ SHARED_STATE = _SharedState()
 class RoomManager:
     """Manages game lifecycle: find → join → play → repeat."""
 
-    def __init__(self, api_client: MoltyAPIClient, room_type: str = None, room_name: str = None, is_host: bool = False):
+    def __init__(self, api_client: MoltyAPIClient, room_type: str = None, room_name: str = None, is_host: bool = False, agent_index: int = -1):
         self.api = api_client
         self.room_type = room_type or ROOM_TYPE
         self.room_name = room_name
         self.is_host = is_host
+        self.agent_index = agent_index  # 0 to 4 for 5 core hosts. -1 if regular bot
         self.agent_name = ""
         self._running = True
         self._consecutive_timeouts = 0
@@ -69,13 +70,12 @@ class RoomManager:
     def find_and_join_game(self) -> tuple:
         """
         Find and join a game. Returns (game_id, agent_id) or (None, None).
-
-        Flow:
-        1. Check currentGames for existing active game
-        2. If none, search for waiting game matching room type
-        3. If none found, create a new game
-        4. Register agent and return IDs
+        
+        Using Turn-Based Hosting (5 Core Hosts).
         """
+        from datetime import datetime
+        from src.config import get_deterministic_room_name
+        
         # Step 1: Check if already in a game
         try:
             account = self.api.get_account_info()
@@ -94,14 +94,12 @@ class RoomManager:
 
                     if game_status == "running":
                         if not is_alive:
-                            # Agent is dead in this running game — wait for it to finish
                             short_id = game_id[:8] if game_id else "?"
                             logger.info(
                                 f"Agent is dead in running {entry_type} game [{short_id}...]. "
                                 f"Waiting for game to finish before joining a new one..."
                             )
                             self._wait_for_game_finish(game_id)
-                            # Game finished, now fall through to search for new game
                             continue
 
                         logger.success(f"Already in running {entry_type} game!", logger.SYM_STAR)
@@ -129,12 +127,14 @@ class RoomManager:
         check_count = 0
         while self._running:
             try:
+                # SELALU UPDATE NAMA ROOM DINAMIS SETIAP LOOP
+                self.room_name = get_deterministic_room_name()
+                
                 check_count += 1
                 logger.waiting_for_game(check_count, self.room_type)
                 self._dash_status("searching")
 
-                # 1. Check P2P Shared Memory (bypasses list_games API for instant joining!)
-                # This only works for agents running in the exact same multi_runner.py execution.
+                # 1. Check P2P Shared Memory
                 if self.room_name:
                     recent_shared_id = SHARED_STATE.get_recent_game(max_age=10.0)
                     if recent_shared_id:
@@ -146,16 +146,67 @@ class RoomManager:
                             logger.joined_game(self.room_name, recent_shared_id, self.agent_name)
                             return recent_shared_id, agent_id
 
-                # 2. If no shared game, request list from API (slower)
+                # 2. Check API
                 games = self.api.list_games("waiting")
-                self._consecutive_timeouts = 0  # Server responded!
+                self._consecutive_timeouts = 0
 
-                # Filter by room type
                 matching = [g for g in games if g.get("entryType", "free") == self.room_type]
-                
-                # Filter by room name if specified
                 if self.room_name:
                     matching = [g for g in matching if g.get("name", "") == self.room_name]
+
+                if matching:
+                    game = matching[0]
+                    game_id = game["id"]
+                    game_name = game.get("name", "Unknown")
+                    print("")
+                    logger.success(f"Found waiting {self.room_type} game: {game_name}")
+
+                    agent_id = self._register_in_game(game_id)
+                    if agent_id:
+                        self.last_game_name = game_name
+                        logger.joined_game(game_name, game_id, self.agent_name)
+                        return game_id, agent_id
+                else:
+                    # 3. Create room logic (Turn-Based Core Host Setup)
+                    if self.is_host and self.agent_index != -1:
+                        current_hour = datetime.now().hour
+                        total_core_hosts = 5
+                        turn_index = current_hour % total_core_hosts
+                        
+                        if self.agent_index == turn_index:
+                            print("")
+                            logger.success(f"[TURN {current_hour}:00] I am the primary host! Creating room instantly...")
+                            # No jitter delay for the primary
+                        else:
+                            # Secondary hosts (Backup) have jitter delays depending on their distance from the turn
+                            diff = abs(self.agent_index - turn_index)
+                            if diff == 0: diff = 1
+                            jitter = diff * 2.0  # 2s, 4s, 6s, 8s
+                            
+                            print("")
+                            logger.info(f"Target Room '{self.room_name}' not found. My turn is Agent-{turn_index+1}. Waiting {jitter}s as backup...")
+                            time.sleep(jitter)
+                            
+                            # RE-CHECK if primary host already made it in our sleep time to avoid duplicate room error
+                            games_after = self.api.list_games("waiting")
+                            match_after = [g for g in games_after if g.get("entryType", "free") == self.room_type and g.get("name", "") == self.room_name]
+                            if match_after:
+                                logger.success(f"Primary host just created '{self.room_name}'!")
+                                return self.find_and_join_game() # restart joining cycle
+
+                        # Eksekusi Pembuatan Room
+                        game_id = self._try_create_game()
+                        if game_id:
+                            agent_id = self._register_in_game(game_id)
+                            if agent_id:
+                                self.last_game_name = self.room_name
+                                logger.joined_game("New Room", game_id, self.agent_name)
+                                return game_id, agent_id
+                    else:
+                        # Non-host bots or project 15 secondary bots: just patiently wait
+                        print("")
+                        logger.info(f"Waiting for Core Host to create room '{self.room_name}'...")
+
 
                 if matching:
                     game = matching[0]

@@ -1,7 +1,7 @@
 {
   "meta": {
     "created_at": "2026-03-10T12:35:00.929092Z",
-    "last_updated": "2026-03-10T15:49:43.775608Z",
+    "last_updated": "2026-03-11T09:58:16.172966Z",
     "total_accounts": 20,
     "description": "Molty Royale Account Database",
     "db_path": "C:\\Users\\viikemx\\Downloads\\molty3-main (3)\\molty3-main\\accounts_db.json"
@@ -21,16 +21,16 @@
       "totalWins": 0,
       "currentGames": [
         {
-          "gameId": "bade9a3c-779d-444a-99ae-e2ac036b6dbb",
-          "agentId": "3279a851-c01e-4f84-a106-55ab0f10917e",
+          "gameId": "71f4273b-65c0-4d3a-acea-0da6936a8096",
+          "agentId": "61230f59-6566-467d-99ca-6af57a6ac0b9",
           "agentName": "shaheed",
-          "isAlive": 0,
+          "isAlive": 1,
           "gameStatus": "running",
           "entryType": "free"
         }
       ],
       "createdAt": "2026-03-10T12:41:26.696Z",
-      "lastUpdated": "2026-03-10T13:30:10.855001Z",
+      "lastUpdated": "2026-03-11T09:54:47.662865Z",
       "notes": "bulk_create"
     },
     {
@@ -47,16 +47,16 @@
       "totalWins": 0,
       "currentGames": [
         {
-          "gameId": "bade9a3c-779d-444a-99ae-e2ac036b6dbb",
-          "agentId": "e715750c-9b74-4cf0-b1ed-696d42f86101",
+          "gameId": "84b8db9a-ac78-4683-8d42-fe27a66f2251",
+          "agentId": "3a95d698-934a-450e-af33-7bc1d7efb8ff",
           "agentName": "martyr",
-          "isAlive": 0,
+          "isAlive": 1,
           "gameStatus": "running",
           "entryType": "free"
         }
       ],
       "createdAt": "2026-03-10T12:41:29.768Z",
-      "lastUpdated": "2026-03-10T13:30:11.364830Z",
+      "lastUpdated": "2026-03-11T09:54:48.188212Z",
       "notes": "bulk_create"
     },
     {
@@ -73,8 +73,8 @@
       "totalWins": 0,
       "currentGames": [
         {
-          "gameId": "12010a3e-c717-4bfc-bb62-8ed90db9bbb1",
-          "agentId": "b389b37a-be65-49ad-888f-3e448525cd2b",
+          "gameId": "71f4273b-65c0-4d3a-acea-0da6936a8096",
+          "agentId": "3269538b-a041-48c5-9597-5ebae09548e0",
           "agentName": "owo",
           "isAlive": 0,
           "gameStatus": "running",
@@ -82,7 +82,7 @@
         }
       ],
       "createdAt": "2026-03-10T12:41:33.107Z",
-      "lastUpdated": "2026-03-10T13:30:11.925599Z",
+      "lastUpdated": "2026-03-11T09:54:48.722470Z",
       "notes": "bulk_create"
     },
     {
@@ -93,23 +93,27 @@
       "publicId": "134538086231639",
       "walletAddress": "0x32f249389653f8043f94435a44bc27f5c40677a0",
       "walletSynced": true,
-      "balance": 0,
+      "balance": 18,
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
       "currentGames": [
         {
-          "gameId": "41f075be-0025-4c11-811b-6b748b942c1e",
-          "agentId": "c4771d5e-a6a9-4af5-8aa0-fb6dff04bf3c",
+          "gameId": "84b8db9a-ac78-4683-8d42-fe27a66f2251",
+          "agentId": "6f9c04e5-22a9-4d32-8fbb-5cfdce23fbc4",
           "agentName": "owi",
-          "isAlive": 1,
+          "isAlive": 0,
           "gameStatus": "running",
           "entryType": "free"
         }
       ],
       "createdAt": "2026-03-10T12:41:36.192Z",
-      "lastUpdated": "2026-03-10T13:30:12.450077Z",
-      "notes": "bulk_create"
+      "lastUpdated": "2026-03-11T09:58:16.172800Z",
+      "notes": "bulk_create",
+      "scWallet": "0xcf129ee0581bb2cbdf33cf2188f9c07c404a8095",
+      "scOwnerEoa": "0x32f249389653f8043f94435a44bc27f5c40677a0",
+      "whitelistStatus": "approved",
+      "onchainTxHash": "06d215bf5769a806ae5895c0d0a2561f6e9d65a3e9169b80e2eca44ea369353e"
     },
     {
       "accountId": "96de7e0a-7d85-4874-b801-2c19b8c7d3c4",
@@ -125,16 +129,16 @@
       "totalWins": 0,
       "currentGames": [
         {
-          "gameId": "b0191772-458c-4363-b8b8-a899bb799a16",
-          "agentId": "20aacc82-615f-4d49-987c-d083c5e35896",
+          "gameId": "71f4273b-65c0-4d3a-acea-0da6936a8096",
+          "agentId": "0a0fddc5-3483-4aa8-933e-314e46bf8cf0",
           "agentName": "gib",
-          "isAlive": 0,
+          "isAlive": 1,
           "gameStatus": "running",
           "entryType": "free"
         }
       ],
       "createdAt": "2026-03-10T12:41:39.267Z",
-      "lastUpdated": "2026-03-10T13:30:12.979419Z",
+      "lastUpdated": "2026-03-11T09:54:49.754513Z",
       "notes": "bulk_create"
     },
     {
@@ -145,13 +149,22 @@
       "publicId": "267318022047931",
       "walletAddress": "0xea304a712c560f843de68496485c6db3bee6e670",
       "walletSynced": true,
-      "balance": 0,
+      "balance": 5,
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "00de06bc-8893-42f9-9100-4595cd57af9f",
+          "agentId": "d23baae6-f38a-47fa-a13d-cca12fc91139",
+          "agentName": "robinhood",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T13:29:44.617Z",
-      "lastUpdated": "2026-03-10T13:30:13.496466Z",
+      "lastUpdated": "2026-03-11T09:54:50.263363Z",
       "notes": "bulk_create"
     },
     {
@@ -166,9 +179,18 @@
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "02232759-ddab-45e1-b018-d0e26fe30c5a",
+          "agentId": "1c84c2dd-744c-4af7-b029-8713df51cb30",
+          "agentName": "elPEMENANG",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T13:29:47.821Z",
-      "lastUpdated": "2026-03-10T13:30:14.022251Z",
+      "lastUpdated": "2026-03-11T09:54:51.027407Z",
       "notes": "bulk_create"
     },
     {
@@ -183,9 +205,18 @@
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "cb0a22e8-dc52-469d-b04b-b6cdd8d4fb7a",
+          "agentId": "e8d39929-da8d-44bd-b3d5-08f88de19894",
+          "agentName": "a7jtloker",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T13:29:50.895Z",
-      "lastUpdated": "2026-03-10T13:30:14.564883Z",
+      "lastUpdated": "2026-03-11T09:54:51.560538Z",
       "notes": "bulk_create"
     },
     {
@@ -200,9 +231,18 @@
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "2ccf4bc0-67dd-4662-86b6-818082e1ed7d",
+          "agentId": "86e922ee-ac76-4632-8468-e9543b499f65",
+          "agentName": "epstenpedo",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T13:29:53.946Z",
-      "lastUpdated": "2026-03-10T13:30:15.093988Z",
+      "lastUpdated": "2026-03-11T09:54:52.074234Z",
       "notes": "bulk_create"
     },
     {
@@ -219,7 +259,7 @@
       "totalWins": 0,
       "currentGames": [],
       "createdAt": "2026-03-10T13:29:57.004Z",
-      "lastUpdated": "2026-03-10T13:30:15.607857Z",
+      "lastUpdated": "2026-03-11T09:54:52.588168Z",
       "notes": "bulk_create"
     },
     {
@@ -234,9 +274,18 @@
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "54541a9a-c69d-4343-8c89-dcbfb7908bc1",
+          "agentId": "44df3e92-ea3e-476c-a689-50664fea04cc",
+          "agentName": "robbi",
+          "isAlive": 1,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T15:47:58.706Z",
-      "lastUpdated": "2026-03-10T15:47:58.958346Z",
+      "lastUpdated": "2026-03-11T09:54:53.108772Z",
       "notes": "bulk_create"
     },
     {
@@ -251,9 +300,18 @@
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "525512e4-a9fa-41bf-bc79-953da0cc7d42",
+          "agentId": "21ca68e6-6dc6-4485-859b-123cd5604f21",
+          "agentName": "marcielle28",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T15:48:01.760Z",
-      "lastUpdated": "2026-03-10T15:48:02.016809Z",
+      "lastUpdated": "2026-03-11T09:54:53.646056Z",
       "notes": "bulk_create"
     },
     {
@@ -268,9 +326,18 @@
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "da037cc4-3324-441c-8bbd-3b4dc88d422e",
+          "agentId": "d8dc4573-f4d0-4f58-aaa5-17fa9cf815d4",
+          "agentName": "fourb",
+          "isAlive": 1,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T15:48:04.817Z",
-      "lastUpdated": "2026-03-10T15:48:05.101023Z",
+      "lastUpdated": "2026-03-11T09:54:54.162363Z",
       "notes": "bulk_create"
     },
     {
@@ -285,9 +352,18 @@
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "54541a9a-c69d-4343-8c89-dcbfb7908bc1",
+          "agentId": "e903c75b-f691-4b10-a495-4501c438f982",
+          "agentName": "ratna",
+          "isAlive": 1,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T15:48:07.911Z",
-      "lastUpdated": "2026-03-10T15:48:08.516545Z",
+      "lastUpdated": "2026-03-11T09:54:54.674141Z",
       "notes": "bulk_create"
     },
     {
@@ -302,9 +378,18 @@
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "54541a9a-c69d-4343-8c89-dcbfb7908bc1",
+          "agentId": "6992a39c-45b3-4bbc-a1c6-867859158135",
+          "agentName": "arang",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T15:48:11.328Z",
-      "lastUpdated": "2026-03-10T15:48:11.585638Z",
+      "lastUpdated": "2026-03-11T09:54:55.189271Z",
       "notes": "bulk_create"
     },
     {
@@ -319,9 +404,18 @@
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "a9c0f275-f6bf-4ac4-bf4c-26375ad78c00",
+          "agentId": "d3737806-f4d9-4801-8ea6-0fc7b0e4a12d",
+          "agentName": "ardan",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T15:49:30.155Z",
-      "lastUpdated": "2026-03-10T15:49:30.404263Z",
+      "lastUpdated": "2026-03-11T09:54:55.941019Z",
       "notes": "bulk_create"
     },
     {
@@ -336,9 +430,18 @@
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "db13c9ce-d91c-435d-b102-43e5caeba1de",
+          "agentId": "040e59fc-e207-48bf-be99-075639987747",
+          "agentName": "fikri",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T15:49:33.230Z",
-      "lastUpdated": "2026-03-10T15:49:33.821071Z",
+      "lastUpdated": "2026-03-11T09:54:56.453244Z",
       "notes": "bulk_create"
     },
     {
@@ -353,9 +456,18 @@
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "a9c0f275-f6bf-4ac4-bf4c-26375ad78c00",
+          "agentId": "5ec4330c-03b1-44ea-935f-af9f9ca07e07",
+          "agentName": "kim",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T15:49:36.620Z",
-      "lastUpdated": "2026-03-10T15:49:37.057745Z",
+      "lastUpdated": "2026-03-11T09:54:57.007050Z",
       "notes": "bulk_create"
     },
     {
@@ -370,9 +482,18 @@
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "a9c0f275-f6bf-4ac4-bf4c-26375ad78c00",
+          "agentId": "1b231cc4-4106-4e59-a0a1-b6980504946d",
+          "agentName": "harry",
+          "isAlive": 0,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T15:49:39.859Z",
-      "lastUpdated": "2026-03-10T15:49:40.700244Z",
+      "lastUpdated": "2026-03-11T09:54:57.545294Z",
       "notes": "bulk_create"
     },
     {
@@ -387,9 +508,18 @@
       "crossBalanceWei": "0",
       "totalGames": 0,
       "totalWins": 0,
-      "currentGames": [],
+      "currentGames": [
+        {
+          "gameId": "db13c9ce-d91c-435d-b102-43e5caeba1de",
+          "agentId": "f34f66f1-b420-41ae-a564-13037b366401",
+          "agentName": "cuna",
+          "isAlive": 1,
+          "gameStatus": "running",
+          "entryType": "free"
+        }
+      ],
       "createdAt": "2026-03-10T15:49:43.513Z",
-      "lastUpdated": "2026-03-10T15:49:43.775428Z",
+      "lastUpdated": "2026-03-11T09:54:58.239459Z",
       "notes": "bulk_create"
     }
   ]
